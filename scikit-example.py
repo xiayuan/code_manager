@@ -15,6 +15,7 @@ from sklearn.ensemble import GradientBoostingClassifier
 
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
+# add a line for github
 # param = {'max_depth':2, 'eta':1, 'silent':1, 'objective':'binary:logistic' }
 # dtest = xgb.DMatrix('income_predict_salary.data.binary.svm.test')
 # num_round = 10
