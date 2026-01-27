@@ -127,6 +127,99 @@ def binary_search_rightmost(arr, target):
     return result
 
 
+def binary_search_sqrt(n, precision=1e-7):
+    """
+    使用二分查找计算非负数的平方根。
+
+    Args:
+        n: 非负数，要计算其平方根
+        precision: 精度，默认为 1e-7
+
+    Returns:
+        n 的平方根（浮点数）
+
+    Raises:
+        ValueError: 如果 n 为负数
+
+    Time Complexity: O(log(n / precision))
+    Space Complexity: O(1)
+
+    Example:
+        >>> binary_search_sqrt(16)
+        4.0
+        >>> binary_search_sqrt(2)
+        1.4142135...
+    """
+    if n < 0:
+        raise ValueError("不能计算负数的平方根")
+
+    if n == 0:
+        return 0.0
+
+    # 确定搜索范围
+    # 当 n >= 1 时，平方根在 [1, n] 之间
+    # 当 0 < n < 1 时，平方根在 [n, 1] 之间
+    if n >= 1:
+        left, right = 1.0, float(n)
+    else:
+        left, right = float(n), 1.0
+
+    # 二分查找
+    while right - left > precision:
+        mid = left + (right - left) / 2
+
+        if mid * mid < n:
+            left = mid
+        else:
+            right = mid
+
+    return left + (right - left) / 2
+
+
+def binary_search_sqrt_integer(n):
+    """
+    使用二分查找计算非负整数的整数平方根（向下取整）。
+
+    Args:
+        n: 非负整数
+
+    Returns:
+        n 的整数平方根（向下取整）
+
+    Raises:
+        ValueError: 如果 n 为负数
+
+    Time Complexity: O(log n)
+    Space Complexity: O(1)
+
+    Example:
+        >>> binary_search_sqrt_integer(16)
+        4
+        >>> binary_search_sqrt_integer(10)
+        3
+    """
+    if n < 0:
+        raise ValueError("不能计算负数的平方根")
+
+    if n == 0:
+        return 0
+
+    left, right = 1, n
+
+    while left <= right:
+        mid = left + (right - left) // 2
+
+        if mid * mid == n:
+            return mid
+        elif mid * mid < n:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    # 返回向下取整的结果
+    return right
+
+
 if __name__ == "__main__":
     # Test cases
     test_array = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
@@ -166,3 +259,25 @@ if __name__ == "__main__":
     print(f"Empty array: {binary_search_iterative([], 5)}")
     print(f"Single element (found): {binary_search_iterative([5], 5)}")
     print(f"Single element (not found): {binary_search_iterative([5], 3)}")
+
+    # Test square root functions
+    print("\n" + "=" * 50)
+    print("Square Root Binary Search Tests")
+    print("=" * 50)
+
+    # Test floating point square root
+    print("\nFloating Point Square Root:")
+    print(f"sqrt(16) = {binary_search_sqrt(16)}")
+    print(f"sqrt(2) = {binary_search_sqrt(2)}")
+    print(f"sqrt(0.25) = {binary_search_sqrt(0.25)}")
+    print(f"sqrt(0) = {binary_search_sqrt(0)}")
+    print(f"sqrt(100) = {binary_search_sqrt(100)}")
+
+    # Test integer square root
+    print("\nInteger Square Root (floor):")
+    print(f"isqrt(16) = {binary_search_sqrt_integer(16)}")
+    print(f"isqrt(10) = {binary_search_sqrt_integer(10)}")
+    print(f"isqrt(15) = {binary_search_sqrt_integer(15)}")
+    print(f"isqrt(0) = {binary_search_sqrt_integer(0)}")
+    print(f"isqrt(1) = {binary_search_sqrt_integer(1)}")
+    print(f"isqrt(100) = {binary_search_sqrt_integer(100)}")
